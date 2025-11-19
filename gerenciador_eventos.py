@@ -88,6 +88,46 @@ def listar_eventos(eventos):
         print(f"{i}. {evento['titulo']} - {data_formatada} {status}")
         print("-" * 40)
 
+def visualizar_calendario():
+    """
+    Exibe o calendário de um mês específico.
+    Args:
+        None    
+    Retorna:
+        None
+    """
+    print("\n" + "="*50)
+    print("VISUALIZAR CALENDÁRIO")
+    print("="*50)
+    
+    try:
+        # Solicita o ano
+        ano = int(input("\n📅 Ano (ex: 2025): "))
+        
+        # Solicita o mês
+        mes = int(input("📅 Mês (1-12): "))
+        
+        # Validação simples do mês
+        if mes < 1 or mes > 12:
+            print("❌ Mês deve estar entre 1 e 12.\n")
+            return
+        
+        # Obtém o nome do mês em português (usando índices de uma lista)
+        nomes_meses = [
+            "", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        ]
+        
+        print(f"\n🗓️  Calendário de {nomes_meses[mes]} de {ano}\n")
+        
+        # calendar.month(ano, mes): Retorna a representação do calendário como string
+        # Essa função é útil para exibir calendários de forma organizada
+        calendario = calendar.month(ano, mes)
+        print(calendario)
+        
+    except ValueError:
+        print("❌ Entrada inválida! Use números inteiros para ano e mês.\n")
+
 def menu_principal():
     """
     Menu principal do programa.
@@ -128,9 +168,9 @@ def menu_principal():
             # Opção 2: Listar eventos
             listar_eventos(eventos)
             
-        #elif opcao == "3":
-            # Opção 3: Visualizar calendário
-            #visualizar_calendario()
+        elif opcao == "3":
+             #Opção 3: Visualizar calendário
+             visualizar_calendario()
             
         elif opcao == "4":
             # Opção 4: Sair do programa
