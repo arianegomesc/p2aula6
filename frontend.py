@@ -36,9 +36,10 @@ with tab1:
                         st.success(f"✅ Evento '{nome}' criado com sucesso!")
                         st.rerun()
                     else:
-                        st.error(f"❌ Erro ao criar evento: {response.status_code}")
-                except requests.exceptions.ConnectionError:
-                    st.error("❌ Não foi possível conectar à API. Verifique se o backend está rodando.")
+                        detalhe = response.text if response.text else response.status_code
+                        st.error(f"❌ Erro ao criar evento: {detalhe}")
+                except Exception as e:
+                    st.error(f"❌ Não foi possível conectar à API: {e}")
             else:
                 st.error("❌ Preencha todos os campos!")
 
@@ -113,12 +114,13 @@ with tab2:
                                         st.success(f"✅ Evento deletado!")
                                         st.rerun()
                                     else:
-                                        st.error("❌ Erro ao deletar evento")
-                                except requests.exceptions.ConnectionError:
-                                    st.error("❌ Erro de conexão")
+                                        detalhe = del_response.text if del_response.text else del_response.status_code
+                                        st.error(f"❌ Erro ao deletar evento: {detalhe}")
+                                except Exception as e:
+                                    st.error(f"❌ Erro de conexão: {e}")
     
-    except requests.exceptions.ConnectionError:
-        st.error("❌ Não foi possível conectar à API.")
+    except Exception as e:
+        st.error(f"❌ Não foi possível conectar à API: {e}")
 
 # Seção de edição
 if "edit_id" in st.session_state:
@@ -145,9 +147,10 @@ if "edit_id" in st.session_state:
                         del st.session_state.edit_id
                         st.rerun()
                     else:
-                        st.error("❌ Erro ao atualizar")
-                except requests.exceptions.ConnectionError:
-                    st.error("❌ Erro de conexão")
+                        detalhe = put_response.text if put_response.text else put_response.status_code
+                        st.error(f"❌ Erro ao atualizar: {detalhe}")
+                except Exception as e:
+                    st.error(f"❌ Erro de conexão: {e}")
         
         with col_btn2:
             if st.form_submit_button("❌ Cancelar", use_container_width=True):
@@ -276,16 +279,20 @@ with tab4:
                                 continue
                             
                             # Envia para API
-                            response = requests.post(
-                                f"{API_URL}/eventos/",
-                                json={"nome": nome, "data_hora": data_hora_iso},
-                                timeout=5
-                            )
-                            
-                            if response.status_code == 201:
-                                importados += 1
-                            else:
-                                erros.append(f"Erro ao importar '{nome}': {response.status_code}")
+                            try:
+                                response = requests.post(
+                                    f"{API_URL}/eventos/",
+                                    json={"nome": nome, "data_hora": data_hora_iso},
+                                    timeout=5
+                                )
+
+                                if response.status_code == 201:
+                                    importados += 1
+                                else:
+                                    detalhes_resp = response.text if response.text else response.status_code
+                                    erros.append(f"Erro ao importar '{nome}': {detalhes_resp}")
+                            except Exception as e:
+                                erros.append(f"Erro ao enviar '{nome}': {e}")
                         
                         except Exception as e:
                             erros.append(f"Erro processando evento: {str(e)}")
