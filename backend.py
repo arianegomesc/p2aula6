@@ -1,6 +1,13 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import pydantic as _pydantic
+
+# Determine pydantic major version once to avoid class-body assignments
+try:
+    _pydantic_major = int(_pydantic.__version__.split('.')[0])
+except Exception:
+    _pydantic_major = 1
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.orm import sessionmaker, declarative_base, Session
 from datetime import datetime
@@ -43,8 +50,12 @@ class EventoUpdate(BaseModel):
 class EventoResponse(EventoBase):
     id: int
     
-    class Config:
-        from_attributes = True
+    # Support both pydantic v1 and v2 configuration styles
+    if _pydantic_major >= 2:
+        model_config = {"from_attributes": True}
+    else:
+        class Config:
+            orm_mode = True
 
 # Funções CRUD
 def criar_evento(db: Session, evento: EventoCreate):
