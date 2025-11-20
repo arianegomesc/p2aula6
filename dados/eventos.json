@@ -1,6 +1,10 @@
 [
   {
-    "titulo": "Aula",
-    "data_hora": "2025-11-19T21:00:00"
+    "titulo": "Aula de python",
+    "data_hora": "2025-11-19T19:00:00"
+  },
+  {
+    "titulo": "Aula de Pynton 2 aula 7",
+    "data_hora": "2025-11-25T19:00:00"
   }
 ]

@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 import calendar
 import json
-import os
 from datetime import datetime, timedelta
 
 st.set_page_config(page_title="Gerenciador de Eventos", page_icon="📅", layout="wide")
