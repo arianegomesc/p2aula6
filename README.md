@@ -32,5 +32,5 @@ Siga estas etapas para configurar e instalar o projeto no seu sistema Windows, g
 ### 1. Clonar o Repositório
 
 ```bash
-git clone [https://github.com/arianegomesc/p2aula6.git](https://github.com/arianegomesc/p2aula6.git)
+git clone [https://github.com/arianegomesc/gerenciador-eventos-fastAPI](https://github.com/arianegomesc/gerenciador-eventos-fastAPI)
 cd p2aula6
